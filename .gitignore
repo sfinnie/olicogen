@@ -1,2 +1,4 @@
 /intermediate/**
 /output/**
+/input/**
+!/input/*.tex
