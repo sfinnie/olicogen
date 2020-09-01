@@ -43,7 +43,7 @@ def generate_diagram(value):
     )
 
     template = env.get_template("hundreds.tex")
-    doc = template.render()
+    doc = template.render(value=21)
     intermediate_dir = os.path.join(os.path.abspath('.'), "..", "intermediate")
     output_dir = os.path.join(os.path.abspath('.'), "..", "output")
     texfile = os.path.join(intermediate_dir, f"example-{value}.tex")

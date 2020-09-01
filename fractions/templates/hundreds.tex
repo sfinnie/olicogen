@@ -46,13 +46,9 @@
 % ---------------------------------------------------------------
 \section{Hundredths}
 %\subsection{}
-\foreach \y in {0,1,2,3,4}
-{ Frac1 b6 diagram hundredths\the\numexpr\y+1
+Frac1 b6 diagram hundredths {{ value }} %\the\numexpr\y+1
 \\
 \\
-% ---------------------------------------------------------------
-% Start drawing the pictures, beginning with the number line.
-% ---------------------------------------------------------------
 \begin{tikzpicture} [>=triangle 45, scale = 0.1]%use to change style of arrow head and scale of pic
 \foreach \x in  {0,..., 107}%this tells you at which points to draw the lines and labels
 \draw[shift={(\x,0)},color=black] (0pt,20pt) -- (0pt,-20pt);%this tells you the vert lines color and size
@@ -65,10 +61,9 @@
 %\draw[shift={(\z,0.3)}, color=black] {rectangle(1,0.7)};
 \foreach \x in {0,100}
 \draw[shift={(\x,0)},color=black] (0pt,0pt) -- (0pt,-12pt) node[below]{\LARGE\the\numexpr\x/100\relax}; %this tells you the labels under the vert lines
-\foreach \x in {0,...,\y}
+\foreach \x in {0,...,{{ value - 1 }} }
 \draw[shift={(\x,1.8)}, fill=red] {rectangle(1,5.8)};
-
+%
 \end{tikzpicture}
-\\}
 
 \end{document}
