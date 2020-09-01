@@ -43,7 +43,7 @@ def generate_diagram(value):
     )
 
     template = env.get_template("hundreds.tex")
-    doc = template.render(value=21)
+    doc = template.render(value=value)
     intermediate_dir = os.path.join(os.path.abspath('.'), "..", "intermediate")
     output_dir = os.path.join(os.path.abspath('.'), "..", "output")
     texfile = os.path.join(intermediate_dir, f"example-{value}.tex")
@@ -56,4 +56,4 @@ def generate_diagram(value):
 
 
 if __name__ == "__main__":
-    generate_questions(1, 1, 100)
+    generate_questions(num_questions=10, min=1, max=100)
