@@ -1,0 +1,74 @@
+% ---------------------------------------------------------------
+% Document configuration setup.
+%
+% Sets up things like document format, page size and the libraries to use later
+% ---------------------------------------------------------------
+
+\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ...
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{arrows}
+%\title{Brief Article}
+%\author{The Author}
+%\date{}							% Activate to display a given date or no date
+
+% ---------------------------------------------------------------
+% Start of the document itself
+% ---------------------------------------------------------------
+\begin{document}
+%\maketitle
+
+% ---------------------------------------------------------------
+% tikz is the LaTeX library for drawing 2D figures.  Use the
+% arrows library for drawing the number lines
+% ---------------------------------------------------------------
+\usetikzlibrary{arrows}
+% ---------------------------------------------------------------
+% This "document" is really a program itself.  At the top level,
+% it's several loops that draw variations of each diagram; e.g.
+% the first loop counts from 0..19 (1..20 in normal people's
+% language), drawing number lines for hundredths.
+% We're creating 20 different drawings, which will be named e.g.
+% "Frac1 b6 diagram hundredths1", "Frac1 b6 diagram hundredths2",
+% etc.  Note the "y+1" in the name so the diagrams are numbered
+% 1..20 instead of 0..19.
+%
+% Note: the double backslashes (i.e. '\\') are significant.  They
+% mean "treat this line as a comment".  Otherwise, latex thinks its
+% empty lines that need to be written into the document.
+% ---------------------------------------------------------------
+\section{Hundredths}
+%\subsection{}
+\foreach \y in {0,1,2,3,4,5,6,7,8,9,10,11,12, 13, 14, 15, 16, 17, 18, 19}
+{ Frac1 b6 diagram hundredths\the\numexpr\y+1
+\\
+\\
+% ---------------------------------------------------------------
+% Start drawing the pictures, beginning with the number line.
+% ---------------------------------------------------------------
+\begin{tikzpicture} [>=triangle 45, scale = 0.1]%use to change style of arrow head and scale of pic
+\foreach \x in  {0,..., 107}%this tells you at which points to draw the lines and labels
+\draw[shift={(\x,0)},color=black] (0pt,20pt) -- (0pt,-20pt);%this tells you the vert lines color and size
+\foreach \x in  {0,..., 99}
+\draw[shift={(\x,1.8)}] {rectangle(1,5.8)};
+\foreach \z in  {0,10,20,30,40,50,60,70,80,90,100}%this tells you at which points to draw the lines and labels
+\draw[shift={(\z,0)},color=black] (0pt,40pt) -- (0pt,-40pt);%this tells you the vert lines color and size
+\draw[very thick, ->] (0,0) -- (110,0) ;
+%\foreach \z in {0, 100}
+%\draw[shift={(\z,0.3)}, color=black] {rectangle(1,0.7)};
+\foreach \x in {0,100}
+\draw[shift={(\x,0)},color=black] (0pt,0pt) -- (0pt,-12pt) node[below]{\LARGE\the\numexpr\x/100\relax}; %this tells you the labels under the vert lines
+\foreach \x in {0,...,\y}
+\draw[shift={(\x,1.8)}, fill=red] {rectangle(1,5.8)};
+
+\end{tikzpicture}
+\\}
+
+\end{document}
