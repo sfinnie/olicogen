@@ -5,9 +5,7 @@
 #
 import random
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-
-# from pylatex import Document, Section, Subsection, TikZ, Math, Axis, Plot
-# from pylatex.utils import italic
+import os
 
 
 def generate_questions(num_questions=10, min=1, max=100):
@@ -46,8 +44,15 @@ def generate_diagram(value):
 
     template = env.get_template("hundreds.tex")
     doc = template.render()
-    with open(f"example-{value}.tex", "w") as fh:
+    intermediate_dir = os.path.join(os.path.abspath('.'), "..", "intermediate")
+    output_dir = os.path.join(os.path.abspath('.'), "..", "output")
+    texfile = os.path.join(intermediate_dir, f"example-{value}.tex")
+
+    with open(texfile, "w") as fh:
         fh.write(doc)
+        print(f"wrote `{texfile}")
+
+    res = os.system(f"pdflatex -quiet -aux-directory={intermediate_dir} -output-directory={output_dir} {texfile} ")
 
 # def generate_diagram(value):
 #     """ generates a number line showing `value` 100ths coloured in

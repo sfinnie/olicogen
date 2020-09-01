@@ -2,3 +2,5 @@
 /output/**
 /input/**
 !/input/*.tex
+venv/**
+
