@@ -65,7 +65,7 @@ def generate_diagram(value):
 
 def pdf2png(pdf, png):
     """converts the pdf file into a png"""
-    pages = pdf2image.convert_from_path(pdf)
+    pages = pdf2image.convert_from_path(pdf, 500)
     page = pages[0]
     page.save(png, 'PNG')
 
