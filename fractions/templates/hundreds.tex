@@ -4,7 +4,9 @@
 % Sets up things like document format, page size and the libraries to use later
 % ---------------------------------------------------------------
 
-\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\documentclass[preview]{standalone} % we only want the diagram: this crops the pdf to the size of the content
+
+%\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
 \usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
 \geometry{letterpaper}                   		% ... or a4paper or a5paper or ...
 %\geometry{landscape}                		% Activate for for rotated page geometry
@@ -24,7 +26,7 @@
 % ---------------------------------------------------------------
 \begin{document}
 %\maketitle
-
+\thispagestyle{empty} % don't print page numbers - we only want the diagram
 % ---------------------------------------------------------------
 % tikz is the LaTeX library for drawing 2D figures.  Use the
 % arrows library for drawing the number lines
@@ -33,8 +35,6 @@
 %\section{Hundredths}
 %\subsection{}
 % Frac1 b6 diagram hundredths {{ value }} %\the\numexpr\y+1
-\\
-\\
 \begin{tikzpicture} [>=triangle 45, scale = 0.1]%use to change style of arrow head and scale of pic
 \foreach \x in  {0,..., 107}%this tells you at which points to draw the lines and labels
 \draw[shift={(\x,0)},color=black] (0pt,20pt) -- (0pt,-20pt);%this tells you the vert lines color and size

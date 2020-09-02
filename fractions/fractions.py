@@ -6,6 +6,10 @@
 import random
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import os
+import shutil
+from PIL import Image
+import pdf2image
+
 
 
 def generate_questions(num_questions=10, min=1, max=100):
@@ -44,16 +48,63 @@ def generate_diagram(value):
 
     template = env.get_template("hundreds.tex")
     doc = template.render(value=value)
-    intermediate_dir = os.path.join(os.path.abspath('.'), "..", "intermediate")
-    output_dir = os.path.join(os.path.abspath('.'), "..", "output")
-    texfile = os.path.join(intermediate_dir, f"example-{value}.tex")
+    fname_root = f"example-{value}"
+    texfile = os.path.join(intermediate_dir, f"{fname_root}.tex")
 
     with open(texfile, "w") as fh:
         fh.write(doc)
         print(f"wrote `{texfile}")
+    res = os.system(f"pdflatex -quiet -aux-directory={intermediate_dir} -output-directory={intermediate_dir} {texfile} ")
+    pdf = os.path.join(intermediate_dir, f"{fname_root}.pdf")
 
-    res = os.system(f"pdflatex -quiet -aux-directory={intermediate_dir} -output-directory={output_dir} {texfile} ")
+    white_bg_png = os.path.join(intermediate_dir, f"{fname_root}.png")
+    pdf2png(pdf, white_bg_png)
+
+    transparent_bg_png = os.path.join(output_dir, f"{fname_root}.png")
+    remove_background(white_bg_png, transparent_bg_png)
+
+def pdf2png(pdf, png):
+    """converts the pdf file into a png"""
+    pages = pdf2image.convert_from_path(pdf)
+    page = pages[0]
+    page.save(png, 'PNG')
+
+def remove_background(source_file, target_file):
+    """remove the background colour, making it transparent.
+       works by getting each pixel in the image in RGBA form, where
+       RGB encodes the colour (red, green, blue) and A is transparency.
+       Any pixels that match white (RGB=255, 255, 255) have transparency
+       set to zero.  The rest are left untouched.  The image is then saved
+       to the target file
+    """
+
+    img = Image.open(source_file)
+    img = img.convert('RGBA')
+    data = img.getdata()
+
+    newData = []
+    for item in data:
+        if item[0] == 255 and item[1] == 255 and item[2] == 255:
+            newData.append((255, 255, 255, 0))
+        else:
+            newData.append(item)
+
+    img.putdata(newData)
+    img.save(target_file, "PNG")
+    return
 
 
 if __name__ == "__main__":
-    generate_questions(num_questions=10, min=1, max=100)
+    intermediate_dir = os.path.join(os.path.abspath('.'), "..", "intermediate")
+    output_dir = os.path.join(os.path.abspath('.'), "..", "output")
+
+    if not os.path.exists(intermediate_dir):
+        os.mkdir(intermediate_dir)
+
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+
+    generate_questions(num_questions=1, min=1, max=100)
+
+    # shutil.rmtree(intermediate_dir)
+    # os.mkdir(intermediate_dir)
