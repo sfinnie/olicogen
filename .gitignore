@@ -1,6 +1,9 @@
+.DS_Store
 /intermediate/**
 /output/**
 /input/**
 !/input/*.tex
 venv/**
+.idea/**
+
 
