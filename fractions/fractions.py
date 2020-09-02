@@ -106,5 +106,5 @@ if __name__ == "__main__":
 
     generate_questions(num_questions=1, min=1, max=100)
 
-    # shutil.rmtree(intermediate_dir)
-    # os.mkdir(intermediate_dir)
+    shutil.rmtree(intermediate_dir)
+    os.mkdir(intermediate_dir)
